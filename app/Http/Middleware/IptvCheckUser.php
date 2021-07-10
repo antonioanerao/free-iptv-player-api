@@ -2,13 +2,15 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\IptvUser;
+use Carbon\Carbon;
 use Closure;
 use Illuminate\Http\Request;
 
 class IptvCheckUser
 {
     /**
-     * Handle an incoming request.
+     * Checa se o usuário informado é válido e não está expirado.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
@@ -16,22 +18,22 @@ class IptvCheckUser
      */
     public function handle(Request $request, Closure $next)
     {
-        $data = request()->all();
-        $path = env('IPTV_URL').':'.env('IPTV_PORT').'/'.env('IPTV_PLAYER_API').'?username='
-            .$data['login'].'&password='.request('password');
+        $data = request(['login', 'password']);
+        if(!empty($data['login']) && !empty($data['password'])) {
+            $iptvUser = IptvUser::where('login', $data['login'])->where('password', $data['password'])->first();
 
-        $json = file_get_contents($path);
-
-        $json = json_decode($json, true);
-
-        if($json['user_info']['auth'] == 1){
-            if($json['user_info']['status'] == "Active") {
-                return $next($request);
+            if(isset($iptvUser)) {
+                if($iptvUser->expiration > Carbon::now()) {
+                    return $next($request);
+                } else {
+                    return response()->json(['error.sessaoExpirada'=>'Seu tempo de sessão expirou']);
+                }
             } else {
-                return response(["error" => "Account expired"], 401);
+                return response()->json(['error.fazerLogin'=>'Faça o login para continuar']);
             }
         } else {
-            return response(["error" => "Invalid account"], 401);
+            return response()->json(['erro.informeLogin'=>'Informe os campos login e password']);
         }
+
     }
 }
