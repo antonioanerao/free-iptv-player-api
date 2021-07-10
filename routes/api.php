@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\IptvListController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,3 +16,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('auth/login', [LoginController::class, 'login'])->name('login');
+Route::post('live-tv-groups', [IptvListController::class, 'liveTvGroups'])->name('liveTvGroups');
+Route::post('live-tv-channels', [IptvListController::class, 'liveTvChannels'])->name('liveTvChannels');
