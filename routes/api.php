@@ -25,3 +25,7 @@ Route::get('live-tv-channels', [IptvListController::class, 'liveTvChannels'])->n
 /* Rotas para filmes */
 Route::get('movies-groups', [IptvListController::class, 'moviesGroups'])->name('moviesGroups');
 Route::get('movies-channels', [IptvListController::class, 'moviesChannels'])->name('moviesChannels');
+
+/* Rotas para series */
+Route::get('series-groups', [IptvListController::class, 'seriesGroups'])->name('seriesGroups');
+Route::get('series-channels', [IptvListController::class, 'seriesChannels'])->name('seriesChannels');
