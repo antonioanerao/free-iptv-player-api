@@ -15,6 +15,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('auth/login', [LoginController::class, 'login'])->name('login');
-Route::post('live-tv-groups', [IptvListController::class, 'liveTvGroups'])->name('liveTvGroups');
-Route::post('live-tv-channels', [IptvListController::class, 'liveTvChannels'])->name('liveTvChannels');
+/* Rota de login */
+Route::get('auth/login', [LoginController::class, 'login'])->name('login');
+
+/* Rotas para live tv */
+Route::get('live-tv-groups', [IptvListController::class, 'liveTvGroups'])->name('liveTvGroups');
+Route::get('live-tv-channels', [IptvListController::class, 'liveTvChannels'])->name('liveTvChannels');
+
+/* Rotas para filmes */
+Route::get('movies-groups', [IptvListController::class, 'moviesGroups'])->name('moviesGroups');
+Route::get('movies-channels', [IptvListController::class, 'moviesChannels'])->name('moviesChannels');

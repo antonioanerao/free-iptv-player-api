@@ -34,4 +34,25 @@ class IptvListController extends Controller
             return response()->json(['erro.liveTvChannels'=>'Nenhum canal encontrado neste grupo']);
         }
     }
+
+    public function moviesGroups() {
+        $moviesGroups = $this->iptvList->where('maingroup', 'movie')
+            ->select('tvgroup')
+            ->groupBy('tvgroup')
+            ->get();
+
+        return response()->json(['moviesGroups'=>$moviesGroups]);
+    }
+
+    public function moviesChannels() {
+        $movies = $this->iptvList->where('tvgroup', request()->input('tvGroup'))
+            ->distinct()
+            ->get();
+
+        if($movies->count() > 0) {
+            return response()->json($movies, 200);
+        } else {
+            return response()->json(['erro.moviesChannels'=>'Nenhum filme encontrado neste grupo']);
+        }
+    }
 }
