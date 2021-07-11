@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\IptvListController;
+use App\Http\Controllers\PlayerController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,3 +30,6 @@ Route::get('movies-channels', [IptvListController::class, 'moviesChannels'])->na
 /* Rotas para series */
 Route::get('series-groups', [IptvListController::class, 'seriesGroups'])->name('seriesGroups');
 Route::get('series-channels', [IptvListController::class, 'seriesChannels'])->name('seriesChannels');
+
+/* Rota para player */
+Route::get('player', [PlayerController::class, 'player'])->name('player');
